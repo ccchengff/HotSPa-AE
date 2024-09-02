@@ -1,0 +1,33 @@
+include(ExternalProject)
+
+set(FLASH_TAR ${CMAKE_SOURCE_DIR}/third_party/flash_attn/flash_attn.tar.gz)
+set(FLASH_SHARED_LIB libflashattn.so)
+
+if(${USE_FLASH_ATTN})
+  file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/third_party)
+  execute_process(
+    COMMAND ${CMAKE_COMMAND} -E tar xzf ${FLASH_TAR} 
+    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/third_party
+  )
+
+  set(FLASH_SOURCE ${CMAKE_CURRENT_BINARY_DIR}/third_party/flash_attn)
+  message("flash_attn::${FLASH_SOURCE}")
+  set(FLASH_INCLUDE_DIR ${FLASH_SOURCE}/include)
+  set(FLASH_LIB_DIR ${FLASH_SOURCE}/lib)
+  set(FLASH_INSTALL ${FLASH_SOURCE}/install)
+  # set(FLASH_DLL_PATH ${FLASH_LIB_DIR}/${FLASH_SHARED_LIB})
+  set(FLASH_DLL_PATH ${FLASH_INSTALL}/${FLASH_SHARED_LIB})
+  set(FLASH_CMAKE_EXTRA_ARGS)
+
+  message("FLASH:${FLASH_INSTALL}")
+  message("FLASH_INSTALL:${FLASH_INSTALL}")
+  message("FLASHDLL:${FLASH_DLL_PATH}")
+
+  ExternalProject_Add(project_flashattn
+    PREFIX flashattn
+    # PATCH_COMMAND ${MKLDNN_PATCH_DISCARD_COMMAND} COMMAND ${FLASH_PATCH_COMMAND}
+    SOURCE_DIR ${FLASH_SOURCE} 
+    CMAKE_ARGS -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${FLASH_INSTALL} -DCMAKE_INSTALL_LIBDIR=${FLASH_INSTALL} -DCMAKE_INSTALL_BINDIR=${FLASH_INSTALL}
+  )
+  link_directories(${FLASH_LIB_DIR})
+endif()

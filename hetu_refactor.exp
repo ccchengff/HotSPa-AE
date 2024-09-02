@@ -1,0 +1,6 @@
+#!/bin/bash
+export HETU_HOME="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+export LD_LIBRARY_PATH="${HETU_HOME}/build/lib:${LD_LIBRARY_PATH}"
+export PYTHONPATH="${HETU_HOME}/python_refactor:${HETU_HOME}/build/lib:${PYTHONPATH}"
+#export PATH="$path/bin:$PATH"
+#export PYTHONPATH="$path/python:$path/build/lib:$path/third_party/GraphMix/python:$PYTHONPATH:$path/third_party/HetuML/hetuml/python"
