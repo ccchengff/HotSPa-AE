@@ -2,39 +2,22 @@
 
 Codes for our submission entitled *Enabling Parallelism Hot Switching for Efficient Training of Large Language Models*. We built a prototype DL system `Hetu` for `HotSPa` and prepared scripts to run the training with parallelism hot switching and static parallelism strategies, respectively.
 
-## ( **Important!!!** ) Precise Scripts to Reproduce Experiments
+## Precise Scripts to Reproduce Experiments
 
 #### Technical Requirements
 
-**8~32 x A800-80G GPUs** is required for our paper's experiments. However, due to the high cost of renting these machines, they are currently **not available**. We can only provide a regular **8xA100-40G** machine for **small-scale** evaluations (e.g. LLaMA-3b). 
+**8~32 x A800-80G GPUs** is required for our paper's experiments.
 
-#### Access to our 8xA100-40G GPU Server
-Note that the **environment prepare** & **source code compile** & **dataset preprocess** may be complex for new users, so we also provide our A100-40G with all the things prepared.
-
-- **Important**: you need to firstly provide your **ssh public key** before ssh to our 8xA100-40G machine!!! you can directly paste it in new comment in SOSP AE website or email to gehao@stu.pku.edu.cn
-
-- after we have add your **ssh public key**, you can access the machine by ssh:
-
-    ~~~bash
-    ssh -CAXY job-83e1033f-9636-44b3-bf8b-2b627707b95f-master-0.pkuhetu.tech-platform_research.job@ssh.platform.baai.ac.cn
-    ~~~
 
 #### One-click Script to Reproduce Performance and Compare with Baseline
 
+A regular 8xA100-40G machine is provided for small-scale evaluations (unavailable now).
+
 Now we provide a one-clicked script named `exprs_for_A100_40G.sh` to reproduce the performance of parallelism hot switching for `HotSPa`, and also compare with `Megatron-LM` as baseline.
-
-- firstly ssh to our 8xA100-40G GPU Server followed by [previous instructions](#access-to-our-8xa100-40g-gpu-server)
-
-- then cd the root folder `/home/pkuhetu/gehao` and init envs
-
-    ~~~bash
-    cd /home/pkuhetu/gehao
-    source init_env.sh
-    ~~~
 
 - two one-click scripts for Baseline and HotSPa
     ~~~bash
-    root folder (/home/pkuhetu/gehao)
+    root_folder
     ├── Baselines
     │   └── Megatron-LM
     │       ├── benchmark
@@ -57,14 +40,15 @@ Now we provide a one-clicked script named `exprs_for_A100_40G.sh` to reproduce t
 - one-click script to **reproduce** the performance of parallelism hot switching for `HotSPa` 
 
     ~~~bash
-    cd /home/pkuhetu/gehao/HotSPa/hotspa
+    cd root_folder/HotSPa/hotspa
+    conda activate hotspa
     bash scripts/exprs_for_A100_40G.sh
     ~~~
 
 - one-click script to compare with `Megatron-LM` as baseline
 
     ~~~bash
-    cd /home/pkuhetu/gehao/Baselines/Megatron-LM
+    cd root_folder/Baselines/Megatron-LM
     conda activate megatron
     bash benchmark/exprs_for_A100_40G.sh
     ~~~
